@@ -5,7 +5,7 @@ include_once '../functions/validations.php';
 include_once '../data/user/users_functions.php';
 include_once '../data/task/tasks_functions.php';
 
-
+$errors =  [];
 if (checkMethod('GET') && isset($_SESSION['loged']['id'])) {
     $task_id = sanitize($_GET['id']);
     $user_id = $_SESSION['loged']['id'];
@@ -18,6 +18,10 @@ if (checkMethod('GET') && isset($_SESSION['loged']['id'])) {
         $errors['task_error'] = 'invalid task to delete';
     } else {
         incrementTotalTask($user_id, 'deleted');
+    }
+
+    if (!empty($errors)) {
+        $_SESSION['errors'] = $errors;
     }
 
     redirect("../index.php");
